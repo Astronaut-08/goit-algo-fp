@@ -73,8 +73,35 @@ class LinkedList:
 def reverse_list():
     pass
 
-def sort_list():
-    pass
+def sort_list(ll: LinkedList) -> LinkedList:
+    '''Застосовуємо сортування злиттям, використовуючи нашу функцію злиття'''
+    # розраховуємо довжину списку
+    cur = ll.head
+    len_ll = 0
+    while cur:
+        len_ll += 1
+        cur = cur.next
+
+    if len_ll <= 1: # базовий випадок
+        return ll
+    
+    cur = ll.head # повертаємось на початок списку
+    middle = len_ll // 2
+
+    left = LinkedList()
+    for _ in range(middle): # ліву сторону проставляємо до середини
+        left.insert_at_end(cur.data)
+        cur = cur.next
+
+    right = LinkedList()
+    while cur: # праву сторону доходим до кінця
+        right.insert_at_end(cur.data)
+        cur = cur.next
+
+    left = sort_list(left) # рекурсивні розбиття
+    right = sort_list(right)
+
+    return merge_list(left, right)
 
 def merge_list(ll1: LinkedList, ll2: LinkedList) -> LinkedList:
     '''Зливає два посортовані списки'''
@@ -111,7 +138,17 @@ l1.insert_at_end(3)
 
 l2.insert_at_end(1)
 l2.insert_at_end(3)
-
+print('Merge list:')
 l3 = merge_list(l1, l2)
 
 l3.print_list()
+
+l4 = LinkedList()
+l4.insert_at_end(1)
+l4.insert_at_end(5)
+l4.insert_at_end(8)
+l4.insert_at_end(6)
+l4.insert_at_end(3)
+print('Sort list:')
+l4 = sort_list(l4)
+l4.print_list()
