@@ -42,8 +42,7 @@ class LinkedList:
         cur = self.head
         if cur and cur.data == key:
             self.head = cur.next
-            cur = None
-            return
+            return cur
         prev = None
         while cur and cur.data != key:
             prev = cur
@@ -51,7 +50,7 @@ class LinkedList:
         if cur is None:
             return
         prev.next = cur.next
-        cur = None
+        return cur
 
     def search_element(self, data: int) -> Node | None:
         cur = self.head
@@ -70,8 +69,21 @@ class LinkedList:
 
 ######################################################################################################
 
-def reverse_list():
-    pass
+def reverse_list(ll: LinkedList) -> LinkedList:
+    '''Обертаємо список методом берем початкову ноду і вставляємо на кінець
+    початок видаляємо і тд'''
+    prev = None # попередня нода
+    cur = ll.head
+
+    while cur: # по суті міняємо посилання в протилежну сторону
+        next_cur = cur.next 
+        cur.next = prev # наступна нода тепер попередня
+        prev = cur # а попередня тепер актуальна
+        cur = next_cur
+
+    ll.head = prev # тепер берем початок з кінця
+    return ll
+
 
 def sort_list(ll: LinkedList) -> LinkedList:
     '''Застосовуємо сортування злиттям, використовуючи нашу функцію злиття'''
@@ -151,4 +163,8 @@ l4.insert_at_end(6)
 l4.insert_at_end(3)
 print('Sort list:')
 l4 = sort_list(l4)
+l4.print_list()
+
+print('Reverse list:')
+l4 = reverse_list(l4)
 l4.print_list()
