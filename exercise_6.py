@@ -27,7 +27,7 @@ def greedy_algorithm(budget: int, products: dict[str: dict[str: int]]) -> list:
     greedy_sort_items = dict(
         sorted(
             products.items(), 
-            key=lambda x: x[1]['calories'] / x[1]['cost'], 
+            key=lambda x: x[1]['calories'] / x[1]['cost'], # співвідношення
             reverse=True
         )
     )
@@ -46,7 +46,7 @@ def dynamic_programing(budget: int, products: dict[str: dict[str: int]]) -> list
     items = list(products.items())
     cou = len(items)
 
-    table = [[0] * (budget + 1) for _ in range(cou + 1)]
+    table = [[0] * (budget + 1) for _ in range(cou + 1)] # 2D таблиця
 
     for i in range(1, cou + 1):
         item, stats = items[i - 1]
@@ -60,7 +60,7 @@ def dynamic_programing(budget: int, products: dict[str: dict[str: int]]) -> list
                 )
 
     dynamic_list = list()
-    for i in range(cou, 0, -1):
+    for i in range(cou, 0, -1): # розпаковка з останнього рядка
         if table[i][budget] != table[i-1][budget]:
             item, stats = items[i - 1]
             dynamic_list.append(item)
